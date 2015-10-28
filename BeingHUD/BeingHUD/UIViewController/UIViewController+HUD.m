@@ -10,6 +10,18 @@
 #import <MBProgressHUD.h>
 #import <objc/runtime.h>
 
+
+typedef NS_ENUM(NSInteger, NHHUDViewMode) {
+    /** Progress is shown using an UIActivityIndicatorView. This is the default. */
+    NHHUDViewModeIndeterminate,
+    /** Progress is shown using progress view. */
+    NHHUDViewModeDeterminate,
+    /** Shows a custom view */
+    NHHUDViewModeCustomView,
+    /** Shows only labels */
+    NHHUDViewModeText,
+};
+
 @interface UIViewController ()<MBProgressHUDDelegate>
 
 @end
@@ -64,16 +76,19 @@
 }
 
 - (void)showHUDInView:(UIView *)view onlyText:(NSString *)text detailText:(NSString *)detailText {
-    [self showDeterminateHUDInView:view withText:text detailText:detailText customView:nil determinateMode:NHHUDDeterminateModeText];
+    [self showDeterminateHUDInView:view withText:text detailText:detailText customView:nil determinateMode:NHHUDViewModeText];
 }
 
 
 - (void)showHUDInView:(UIView *)view withText:(NSString *)text deatailText:(NSString *)detailText {
-    [self showDeterminateHUDInView:view withText:text detailText:detailText customView:nil determinateMode:NHHUDDeterminateModeIndeterminate];
+    [self showDeterminateHUDInView:view withText:text detailText:detailText customView:nil determinateMode:NHHUDViewModeIndeterminate];
 }
 
 - (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text determinateMode:(NHHUDDeterminateMode)mode {
-    [self showDeterminateHUDInView:view withText:text detailText:nil customView:nil determinateMode:mode];
+    
+    [self associateHUDDeterminteModel:mode];
+    
+    [self showDeterminateHUDInView:view withText:text detailText:nil customView:nil determinateMode:NHHUDViewModeDeterminate];
 }
 
 
@@ -83,11 +98,11 @@
 }
 
 - (void)showHUDInView:(UIView *)view withCustomView:(UIView *)customView text:(NSString *)text {
-    [self showDeterminateHUDInView:view withText:text detailText:nil customView:customView determinateMode:NHHUDDeterminateModeCustomView];
+    [self showDeterminateHUDInView:view withText:text detailText:nil customView:customView determinateMode:NHHUDViewModeCustomView];
 }
 
 
-- (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text detailText:(NSString *)detailText customView:(UIView *)customView determinateMode:(NHHUDDeterminateMode)mode {
+- (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text detailText:(NSString *)detailText customView:(UIView *)customView determinateMode:(NHHUDViewMode)mode {
     
     MBProgressHUD *mbProgressHUD = [self mbProgressHUD];
     
@@ -100,14 +115,14 @@
         [mbProgressHUD show:YES];
     }
     
-    mbProgressHUD.mode = [self mbProgressHUBModeWithMode:mode];
+    mbProgressHUD.mode = [self mbProgressHUDModeWithNHHUDViewMode:mode];
     mbProgressHUD.customView = customView ? customView : nil;
     mbProgressHUD.labelText = text ? text : nil;
     mbProgressHUD.detailsLabelText = detailText ? detailText : nil;
     
-    [self associateHUDDeterminteModel:mode];
+    [self associateHUDViewMode:mode];
     
-    if (mode == NHHUDDeterminateModeCustomView || mode == NHHUDDeterminateModeText) {
+    if (mode == NHHUDViewModeCustomView || mode == NHHUDViewModeText) {
         [self hideHUDAfterDelay:[self displayDurationForString:text]];
     }
 }
@@ -130,59 +145,77 @@
     });
 }
 
-- (void)hideHUDAfterExcuted:(SEL)method onTarget:(id)target withObject:(id)object {
+- (void)hideHUDAfterExecuted:(SEL)method onTarget:(id)target withObject:(id)object {
     [[self mbProgressHUD] showWhileExecuting:method onTarget:target withObject:object animated:YES];
 }
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block {
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block {
     [[self mbProgressHUD] showAnimated:YES whileExecutingBlock:block];
 }
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block completionBlock:(dispatch_block_t)completion {
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block completionBlock:(dispatch_block_t)completion {
     [[self mbProgressHUD] showAnimated:YES whileExecutingBlock:block completionBlock:completion];
 }
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue {
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue {
     [[self mbProgressHUD] showAnimated:YES whileExecutingBlock:block onQueue:queue];
 }
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue completionBlock:(dispatch_block_t)completion {
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue completionBlock:(dispatch_block_t)completion {
     [[self mbProgressHUD] showAnimated:YES whileExecutingBlock:block onQueue:queue completionBlock:completion];
 }
 
 #pragma mark- MBProgressHUD delegate
-- (void)hudWasHidden:(MBProgressHUD *)hud
-{
+- (void)hudWasHidden:(MBProgressHUD *)hud {
     [self removeHUDAssociate];
 }
 
 
 #pragma mark - Pravite Method
-- (MBProgressHUDMode)mbProgressHUBModeWithMode:(NHHUDDeterminateMode)mode {
+/**
+ *  @param mode 当前HUDMode
+ *
+ *  @return 返回MBProgressHUDMode
+ */
+- (MBProgressHUDMode)mbProgressHUDModeWithNHHUDViewMode:(NHHUDViewMode)mode {
     switch (mode) {
-        case NHHUDDeterminateModeIndeterminate: {
+        case NHHUDViewModeIndeterminate: {
             return MBProgressHUDModeIndeterminate;
-        }break;
-        case NHHUDDeterminateModeDeterminate: {
-            return MBProgressHUDModeDeterminate;
-        }break;
-        case NHHUDDeterminateModeDeterminateHorizontalBar: {
-            return MBProgressHUDModeDeterminateHorizontalBar;
-        }break;
-        case NHHUDDeterminateModeAnnularDeterminate: {
-            return MBProgressHUDModeAnnularDeterminate;
-        }break;
-        case NHHUDDeterminateModeCustomView: {
+        } break;
+        case NHHUDViewModeDeterminate: {
+            return [self mbProgressDeterminateMode];
+        } break;
+        case NHHUDViewModeCustomView: {
             return MBProgressHUDModeCustomView;
-        }break;
-        case NHHUDDeterminateModeText: {
+        } break;
+        case NHHUDViewModeText: {
             return MBProgressHUDModeText;
-        }break;
+        } break;
         default:
             break;
     }
 }
 
+/**
+ *  当前HUD是进度条模式
+ *
+ *  @return MBProgressHUD对应的进度条Mode
+ */
+- (MBProgressHUDMode)mbProgressDeterminateMode {
+    switch ([self currentHUDDeterminateMode]) {
+        case NHHUDDeterminateModeDefault: {
+            return MBProgressHUDModeDeterminate;
+        } break;
+        case NHHUDDeterminateModeHorizontalBar: {
+            return MBProgressHUDModeDeterminateHorizontalBar;
+        } break;
+        case NHHUDDeterminateModeAnnular: {
+            return MBProgressHUDModeAnnularDeterminate;
+        } break;
+        default:
+            break;
+    }
+}
 
 /**
  *  当前Mode是否进度条
@@ -190,18 +223,17 @@
  *  @return 如果是进度条->YES
  */
 - (BOOL)isDetermainteMode {
-    switch ([self currentHUDDeterminateMode]) {
-        case NHHUDDeterminateModeDeterminate:
-        case NHHUDDeterminateModeAnnularDeterminate:
-        case NHHUDDeterminateModeDeterminateHorizontalBar: {
-            return YES;
-        } break;
-        default:
-            return NO;
-            break;
-    }
+    return [self currentHUDViewModel] == NHHUDViewModeDeterminate ? YES : NO;
 }
 
+
+/**
+ *  当HUDMode是Custom view 和 onlyText时 计算hud view显示时间
+ *
+ *  @param string text
+ *
+ *  @return 延迟隐藏hud时间 最小为2s
+ */
 - (NSTimeInterval)displayDurationForString:(NSString*)string {
     CGFloat duration = MIN((CGFloat)string.length*0.06 + 0.5, 5.0);
     if (duration < 2.0) {
@@ -212,18 +244,21 @@
 
 
 #pragma mark - Associated Method
-
 - (void)associateHudView: (MBProgressHUD *)hud {
     objc_setAssociatedObject(self, @selector(mbProgressHUD), hud, OBJC_ASSOCIATION_RETAIN);
 }
 - (MBProgressHUD *)mbProgressHUD {
     return objc_getAssociatedObject(self, _cmd);
 }
-- (void)removeHUDAssociate
-{
-    objc_setAssociatedObject(self, @selector(mbProgressHUD), nil, OBJC_ASSOCIATION_RETAIN);
+
+- (void)associateHUDViewMode:(NHHUDViewMode)viewMode {
+    objc_setAssociatedObject(self, @selector(currentHUDViewModel), @(viewMode), OBJC_ASSOCIATION_ASSIGN);
 }
 
+- (NHHUDViewMode)currentHUDViewModel
+{
+    return [objc_getAssociatedObject(self, _cmd) integerValue];
+}
 - (void)associateHUDDeterminteModel:(NHHUDDeterminateMode)mode {
     objc_setAssociatedObject(self, @selector(currentHUDDeterminateMode), @(mode), OBJC_ASSOCIATION_ASSIGN);
 }
@@ -232,12 +267,13 @@
     return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
-//DEBUG
-- (void)autoHiddenAfter2s {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self hideHUD];
-    });
-
+/**
+ *  移除相关关联
+ */
+- (void)removeHUDAssociate {
+    objc_setAssociatedObject(self, @selector(mbProgressHUD), nil, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, @selector(currentHUDViewModel), nil, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(currentHUDDeterminateMode), nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end

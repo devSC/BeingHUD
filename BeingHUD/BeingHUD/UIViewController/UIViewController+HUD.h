@@ -9,19 +9,15 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, NHHUDDeterminateMode) {
-    /** Progress is shown using an UIActivityIndicatorView. This is the default. */
-    NHHUDDeterminateModeIndeterminate,
     /** Progress is shown using a round, pie-chart like, progress view. */
-    NHHUDDeterminateModeDeterminate = 1,
+    NHHUDDeterminateModeDefault,
     /** Progress is shown using a horizontal progress bar */
-    NHHUDDeterminateModeDeterminateHorizontalBar,
+    NHHUDDeterminateModeHorizontalBar,
     /** Progress is shown using a ring-shaped progress view. */
-    NHHUDDeterminateModeAnnularDeterminate,
-    /** Shows a custom view */
-    NHHUDDeterminateModeCustomView,
-    /** Shows only labels */
-    NHHUDDeterminateModeText,
+    NHHUDDeterminateModeAnnular,
 };
+
+
 
 @class MBProgressHUD;
 
@@ -51,23 +47,50 @@ typedef NS_ENUM(NSInteger, NHHUDDeterminateMode) {
 
 /**
  *  shown only using text -> did't have indicator view
+ *  this mode will auto hide
  */
 - (void)showHUDOnlyText:(NSString *)text;
 
 /**
- *  shown only
+ *  shown only using text and detail text  -> did't have indicator view
+ *  this mode will auto hide
  */
 - (void)showHUDOnlyText:(NSString *)text detailText:(NSString *)detailText;
 
+/**
+ *  shown using progress type
+ *
+ *  @param mode determinate mode
+ */
 - (void)showDeterminateHUDWithText:(NSString *)text determinateMode:(NHHUDDeterminateMode)mode;
 
+/**
+ *  set determinate mode progress
+ *
+ *  @param progress a progress
+ */
 - (void)setDeterminateHUDProgress:(CGFloat)progress;
 
+/**
+ *  shown with custom view like a imageView or else
+ *  this mode will auto hide
+ */
 - (void)showHUDWithCustomView:(UIView *)customView;
 
+/**
+ *  shown with custom view like a imageView or else
+ *  this mode will auto hide
+ *  @param text add some text for show
+ */
 - (void)showHUDWithCustomView:(UIView *)customView text:(NSString *)text;
 
 #pragma mark - Show in custom view
+
+/**
+ *  show hud in a custom view eg: self.view / self.navigationController.view ...
+ *
+ *  @param view a custom view
+ */
 - (void)showHUDInView:(UIView *)view;
 
 - (void)showHUDInView:(UIView *)view text:(NSString *)text;
@@ -89,18 +112,39 @@ typedef NS_ENUM(NSInteger, NHHUDDeterminateMode) {
 
 - (void)hideHUDAfterDelay:(NSTimeInterval)dealy;
 
-- (void)hideHUDAfterExcuted:(SEL)method onTarget:(id)target withObject:(id)object;
+/**
+ *  Hide hud after execute a method
+ */
+- (void)hideHUDAfterExecuted:(SEL)method onTarget:(id)target withObject:(id)object;
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block;
+/**
+ *  hide hud after execute a block
+ *
+ */
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block;
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block completionBlock:(dispatch_block_t)completion;
+/**
+ *  hide hud after execute a block
+ *
+ *  @param block block
+ *  @param completion after the block be executed the completion will be invoke
+ */
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block completionBlock:(dispatch_block_t)completion;
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue;
+/**
+ *  hide hud after execute a block
+ *
+ *  @param block block
+ *  @param queue a special queue
+ */
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue;
 
-- (void)hideHUDAfterExcutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue completionBlock:(dispatch_block_t)completion;
+/**
+ *  hide hud after execute a block
+ *  @param block      block
+ *  @param queue      a special queue
+ *  @param completion after the block be executed the completion will be invoke
+ */
+- (void)hideHUDAfterExecutedBlock:(dispatch_block_t)block onQueue:(dispatch_queue_t)queue completionBlock:(dispatch_block_t)completion;
 
-
-#if DEBUG
-- (void)autoHiddenAfter2s; //2s
-#endif
 @end

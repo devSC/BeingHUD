@@ -27,30 +27,30 @@
 - (IBAction)withLabel:(id)sender {
     [self showHUDWithText:@"Loading"];
 //    [self hideHUDAfterDelay:2];
-    [self hideHUDAfterExcutedBlock:^{
+    [self hideHUDAfterExecutedBlock:^{
         [self myTask];
     }];
 }
 - (IBAction)withDetailLabel:(id)sender {
     [self showHUDWithText:@"Loading" deatailText:@"Plase wait"];
-    [self hideHUDAfterExcuted:@selector(myTask) onTarget:self withObject:nil];
+    [self hideHUDAfterExecuted:@selector(myTask) onTarget:self withObject:nil];
 }
 - (IBAction)determinateMode:(id)sender {
-    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeDeterminate];
-    [self hideHUDAfterExcutedBlock:^{
+    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeDefault];
+    [self hideHUDAfterExecutedBlock:^{
         [self myProgressTask];
     }];
 }
 - (IBAction)annularDeterminateMode:(id)sender {
-    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeAnnularDeterminate];
-    [self hideHUDAfterExcutedBlock:^{
+    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeAnnular];
+    [self hideHUDAfterExecutedBlock:^{
         [self myProgressTask];
     }];
 
 }
 - (IBAction)barDeterminateMode:(id)sender {
-    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeDeterminateHorizontalBar];
-    [self hideHUDAfterExcutedBlock:^{
+    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeHorizontalBar];
+    [self hideHUDAfterExecutedBlock:^{
         [self myProgressTask];
     }];
 
@@ -60,11 +60,11 @@
 }
 - (IBAction)modeSwitch:(id)sender {
     [self showHUDWithText:@"Connecting..."];
-    [self hideHUDAfterExcuted:@selector(myMixedTask) onTarget:self withObject:nil];
+    [self hideHUDAfterExecuted:@selector(myMixedTask) onTarget:self withObject:nil];
 }
 - (IBAction)usingBlock:(id)sender {
-    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeDeterminateHorizontalBar];
-    [self hideHUDAfterExcutedBlock:^{
+    [self showDeterminateHUDWithText:@"Update.." determinateMode:NHHUDDeterminateModeHorizontalBar];
+    [self hideHUDAfterExecutedBlock:^{
         [self myProgressTask];
     }];
 
@@ -98,21 +98,16 @@
     // Indeterminate mode
     sleep(2);
     // Switch to determinate mode
-    [self showDeterminateHUDWithText:@"Progress.." determinateMode:NHHUDDeterminateModeDeterminate];
-//    HUD.mode = MBProgressHUDModeDeterminate;
-//    HUD.labelText = @"Progress";
+    [self showDeterminateHUDWithText:@"Progress.." determinateMode:NHHUDDeterminateModeDefault];
     float progress = 0.0f;
     while (progress < 1.0f)
     {
         progress += 0.01f;
-//        HUD.progress = progress;
         [self setDeterminateHUDProgress:progress];
         usleep(50000);
     }
     // Back to indeterminate mode
     [self showHUDWithText:@"Cleaning up"];
-//    HUD.mode = MBProgressHUDModeIndeterminate;
-//    HUD.labelText = @"Cleaning up";
     sleep(2);
     // UIImageView is a UIKit class, we have to initialize it on the main thread
     __block UIImageView *imageView;
@@ -120,9 +115,6 @@
         UIImage *image = [UIImage imageNamed:@"37x-Checkmark.png"];
         imageView = [[UIImageView alloc] initWithImage:image];
     });
-//    HUD.customView = [imageView autorelease];
-//    HUD.mode = MBProgressHUDModeCustomView;
-//    HUD.labelText = @"Completed";
     [self showHUDWithCustomView:imageView text:@"Completed"];
     sleep(2);
 }
