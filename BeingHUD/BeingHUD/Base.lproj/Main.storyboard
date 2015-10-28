@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yDf-FA-PEQ">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="uXK-kA-Rbd">
+            <objects>
+                <navigationController id="yDf-FA-PEQ" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9gt-t2-g6z">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="do8-oH-c74"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9iT-Sh-XPn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-345" y="385"/>
+        </scene>
+        <!--MBProgressHUD For Being-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PUt-fQ-GtK">
+                                <rect key="frame" x="40" y="74" width="520" height="380"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AmE-2h-pwh">
+                                        <rect key="frame" x="0.0" y="0.0" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="M35-Uy-XEB"/>
+                                        </constraints>
+                                        <state key="normal" title="Simple indeterminte progress"/>
+                                        <connections>
+                                            <action selector="simpleProgress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Ag-f8-bxB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Faf-zi-cwp">
+                                        <rect key="frame" x="0.0" y="35" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="a9e-DB-r2F"/>
+                                        </constraints>
+                                        <state key="normal" title="with label"/>
+                                        <connections>
+                                            <action selector="withLabel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VgW-Zm-acV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SdV-0g-j7f">
+                                        <rect key="frame" x="0.0" y="70" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="OJd-RG-Cgh"/>
+                                        </constraints>
+                                        <state key="normal" title="with detail label"/>
+                                        <connections>
+                                            <action selector="withDetailLabel:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WKd-xh-i7q"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ge1-3z-Wbe">
+                                        <rect key="frame" x="0.0" y="105" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Vfq-bf-hPl"/>
+                                        </constraints>
+                                        <state key="normal" title="determinate mode"/>
+                                        <connections>
+                                            <action selector="determinateMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AK7-8v-6NC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k40-JQ-Fqk">
+                                        <rect key="frame" x="0.0" y="140" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="PSy-va-I5R"/>
+                                        </constraints>
+                                        <state key="normal" title="Annular determinate mode"/>
+                                        <connections>
+                                            <action selector="annularDeterminateMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M5H-43-sLC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3wS-7y-6wg">
+                                        <rect key="frame" x="0.0" y="175" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="v1i-5f-hGs"/>
+                                        </constraints>
+                                        <state key="normal" title="Bar determinate mode"/>
+                                        <connections>
+                                            <action selector="barDeterminateMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9UQ-eh-vXT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZ0-ZA-PaC">
+                                        <rect key="frame" x="0.0" y="210" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="qa9-55-xJy"/>
+                                        </constraints>
+                                        <state key="normal" title="Custome View"/>
+                                        <connections>
+                                            <action selector="customeView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BHE-r8-UyL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KtY-s2-NbG">
+                                        <rect key="frame" x="0.0" y="245" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="3Be-HN-wVd"/>
+                                        </constraints>
+                                        <state key="normal" title="Mode Switching"/>
+                                        <connections>
+                                            <action selector="modeSwitch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ajQ-yU-wLi"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSL-aA-iRO">
+                                        <rect key="frame" x="0.0" y="280" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="lBl-iM-EP6"/>
+                                        </constraints>
+                                        <state key="normal" title="Using blocks"/>
+                                        <connections>
+                                            <action selector="usingBlock:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5E1-kj-u64"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tTp-uP-URV">
+                                        <rect key="frame" x="0.0" y="315" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="uRH-pq-81s"/>
+                                        </constraints>
+                                        <state key="normal" title="On Window"/>
+                                        <connections>
+                                            <action selector="onWindow:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Wz-bI-z8z"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOR-Dd-Gvd" userLabel="Text only">
+                                        <rect key="frame" x="0.0" y="350" width="520" height="30"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="qQ8-GN-FRm"/>
+                                        </constraints>
+                                        <state key="normal" title="Text only"/>
+                                        <connections>
+                                            <action selector="dimBackground:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aWI-ih-Lx6"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                            </stackView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.8982130028735632" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="PUt-fQ-GtK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="Fjt-Np-DTB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PUt-fQ-GtK" secondAttribute="trailing" constant="20" id="akF-FA-zbT"/>
+                            <constraint firstItem="PUt-fQ-GtK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="kfF-Vu-vXW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="MBProgressHUD For Being" id="HHH-q5-fgh">
+                        <barButtonItem key="rightBarButtonItem" title="Detail" id="emg-uG-NRI">
+                            <connections>
+                                <segue destination="kuX-Pl-rWh" kind="show" id="Dt2-hV-Qij"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="301" y="379"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="HFx-NU-mMe">
+            <objects>
+                <viewController id="kuX-Pl-rWh" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BPr-hF-5bM"/>
+                        <viewControllerLayoutGuide type="bottom" id="v6K-3b-A0v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c1E-Mc-Ta7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qeb-X7-LNV">
+                                <rect key="frame" x="199" y="285" width="202" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Simple indeterminte progress"/>
+                                <connections>
+                                    <action selector="Simpleindeterminteprogress:" destination="kuX-Pl-rWh" eventType="touchUpInside" id="mR0-aV-jDO"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qeb-X7-LNV" firstAttribute="centerX" secondItem="c1E-Mc-Ta7" secondAttribute="centerX" id="jE8-lU-fkv"/>
+                            <constraint firstItem="qeb-X7-LNV" firstAttribute="centerY" secondItem="c1E-Mc-Ta7" secondAttribute="centerY" id="z36-sL-jkd"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9P4-Xc-Ia8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="988" y="385"/>
+        </scene>
+    </scenes>
+</document>
