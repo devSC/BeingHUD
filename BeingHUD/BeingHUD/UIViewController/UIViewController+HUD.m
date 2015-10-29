@@ -24,13 +24,21 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
 
 @interface UIViewController ()<MBProgressHUDDelegate>
 
+@property (strong, nonatomic) MBProgressHUD *mbProgressHUD;
+
+@property (assign, nonatomic) NHHUDViewMode hudViewMode;
+
+@property (assign, nonatomic) NHHUDDeterminateMode determinateMode;
+
 @end
 
-@implementation UIViewController (HUD) 
+#define NHHUDMinSize CGSizeMake(150, 80)
+
+@implementation UIViewController (HUD)
 
 #pragma mark - show in self.view
-- (void)showHUD
-{
+
+- (void)showHUD {
     [self showHUDWithText:nil];
 }
 
@@ -85,9 +93,9 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
 }
 
 - (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text determinateMode:(NHHUDDeterminateMode)mode {
-    
-    [self associateHUDDeterminteModel:mode];
-    
+
+    //Save the determinate mode
+    self.determinateMode = mode;
     [self showDeterminateHUDInView:view withText:text detailText:nil customView:nil determinateMode:NHHUDViewModeDeterminate];
 }
 
@@ -104,31 +112,28 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
 
 - (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text detailText:(NSString *)detailText customView:(UIView *)customView determinateMode:(NHHUDViewMode)mode {
     
-    MBProgressHUD *mbProgressHUD = [self mbProgressHUD];
-    
-    if (!mbProgressHUD) {
-        mbProgressHUD = [[MBProgressHUD alloc] initWithView:view];
-        mbProgressHUD.delegate = self;
-        [view addSubview:mbProgressHUD];
-        mbProgressHUD.minSize = CGSizeMake(150, 80);
-        [self associateHudView:mbProgressHUD];
-        [mbProgressHUD show:YES];
+    if (!self.mbProgressHUD) {
+        self.mbProgressHUD = [[MBProgressHUD alloc] initWithView:view];
+        self.mbProgressHUD.delegate = self;
+        self.mbProgressHUD.minSize = NHHUDMinSize;
+        
+        [view addSubview:self.mbProgressHUD];
+        [self.mbProgressHUD show:YES];
     }
     
-    mbProgressHUD.mode = [self mbProgressHUDModeWithNHHUDViewMode:mode];
-    mbProgressHUD.customView = customView ? customView : nil;
-    mbProgressHUD.labelText = text ? text : nil;
-    mbProgressHUD.detailsLabelText = detailText ? detailText : nil;
+    self.mbProgressHUD.mode = [self mbProgressHUDModeWithNHHUDViewMode:mode];
+    self.mbProgressHUD.customView = customView ? customView : nil;
+    self.mbProgressHUD.labelText = text ? text : nil;
+    self.mbProgressHUD.detailsLabelText = detailText ? detailText : nil;
+    self.hudViewMode = mode;
     
-    [self associateHUDViewMode:mode];
-    
+    //if view mode is NHHUDViewModeCustomView or NHHUDViewModeText mode, the hud view will Auto hidden
     if (mode == NHHUDViewModeCustomView || mode == NHHUDViewModeText) {
         [self hideHUDAfterDelay:[self displayDurationForString:text]];
     }
 }
 
-- (void)setDeterminateHUDProgress:(CGFloat)progress
-{
+- (void)setDeterminateHUDProgress:(CGFloat)progress {
     if ([self isDetermainteMode]) {
         [[self mbProgressHUD] setProgress:progress];
     }
@@ -165,7 +170,7 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
     [[self mbProgressHUD] showAnimated:YES whileExecutingBlock:block onQueue:queue completionBlock:completion];
 }
 
-#pragma mark- MBProgressHUD delegate
+#pragma mark - MBProgressHUD delegate
 - (void)hudWasHidden:(MBProgressHUD *)hud {
     [self removeHUDAssociate];
 }
@@ -202,7 +207,7 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
  *  @return MBProgressHUD对应的进度条Mode
  */
 - (MBProgressHUDMode)mbProgressDeterminateMode {
-    switch ([self currentHUDDeterminateMode]) {
+    switch (self.determinateMode) {
         case NHHUDDeterminateModeDefault: {
             return MBProgressHUDModeDeterminate;
         } break;
@@ -223,7 +228,7 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
  *  @return 如果是进度条->YES
  */
 - (BOOL)isDetermainteMode {
-    return [self currentHUDViewModel] == NHHUDViewModeDeterminate ? YES : NO;
+    return self.hudViewMode == NHHUDViewModeDeterminate ? YES : NO;
 }
 
 
@@ -243,37 +248,40 @@ typedef NS_ENUM(NSInteger, NHHUDViewMode) {
 }
 
 
-#pragma mark - Associated Method
-- (void)associateHudView: (MBProgressHUD *)hud {
-    objc_setAssociatedObject(self, @selector(mbProgressHUD), hud, OBJC_ASSOCIATION_RETAIN);
+#pragma mark - Setter & Getter
+- (void)setMbProgressHUD:(MBProgressHUD *)mbProgressHUD {
+    objc_setAssociatedObject(self, @selector(mbProgressHUD), mbProgressHUD, OBJC_ASSOCIATION_RETAIN);
 }
+
 - (MBProgressHUD *)mbProgressHUD {
     return objc_getAssociatedObject(self, _cmd);
 }
 
-- (void)associateHUDViewMode:(NHHUDViewMode)viewMode {
-    objc_setAssociatedObject(self, @selector(currentHUDViewModel), @(viewMode), OBJC_ASSOCIATION_ASSIGN);
+
+- (void)setHudViewMode:(NHHUDViewMode)hudViewMode {
+    objc_setAssociatedObject(self, @selector(hudViewMode), @(hudViewMode), OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (NHHUDViewMode)currentHUDViewModel
-{
+- (NHHUDViewMode)hudViewMode {
     return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
-- (void)associateHUDDeterminteModel:(NHHUDDeterminateMode)mode {
-    objc_setAssociatedObject(self, @selector(currentHUDDeterminateMode), @(mode), OBJC_ASSOCIATION_ASSIGN);
+
+- (void)setDeterminateMode:(NHHUDDeterminateMode)determinateMode {
+    objc_setAssociatedObject(self, @selector(determinateMode), @(determinateMode), OBJC_ASSOCIATION_ASSIGN);
 }
 
-- (NHHUDDeterminateMode)currentHUDDeterminateMode {
+- (NHHUDDeterminateMode)determinateMode {
     return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
 /**
- *  移除相关关联
+ *  when the hud hidden the associate should be set to nil
  */
 - (void)removeHUDAssociate {
     objc_setAssociatedObject(self, @selector(mbProgressHUD), nil, OBJC_ASSOCIATION_RETAIN);
-    objc_setAssociatedObject(self, @selector(currentHUDViewModel), nil, OBJC_ASSOCIATION_ASSIGN);
-    objc_setAssociatedObject(self, @selector(currentHUDDeterminateMode), nil, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(hudViewMode), nil, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(determinateMode), nil, OBJC_ASSOCIATION_ASSIGN);
 }
+
 
 @end
