@@ -7,17 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSInteger, NHHUDDeterminateMode) {
-    /** Progress is shown using a round, pie-chart like, progress view. */
-    NHHUDDeterminateModeDefault,
-    /** Progress is shown using a horizontal progress bar */
-    NHHUDDeterminateModeHorizontalBar,
-    /** Progress is shown using a ring-shaped progress view. */
-    NHHUDDeterminateModeAnnular,
-};
-
-
+#import "NHProgressHUD-Header.h"
 
 @class MBProgressHUD;
 

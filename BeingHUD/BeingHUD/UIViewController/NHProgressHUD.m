@@ -1,17 +1,15 @@
 //
-//  UIViewController+HUD.m
-//  Being
+//  NHProgressHUD.m
+//  BeingHUD
 //
-//  Created by Wilson Yuan on 15/10/28.
-//  Copyright © 2015年 Being Inc. All rights reserved.
+//  Created by Wilson Yuan on 15/11/13.
+//  Copyright © 2015年 Wilson-Yuan. All rights reserved.
 //
 
-#import "UIViewController+HUD.h"
+#import "NHProgressHUD.h"
 #import <MBProgressHUD.h>
-#import <objc/runtime.h>
 
-
-@interface UIViewController ()<MBProgressHUDDelegate>
+@interface MBProgressHUD ()<MBProgressHUDDelegate>
 
 @property (strong, nonatomic) MBProgressHUD *mbProgressHUD;
 
@@ -21,11 +19,18 @@
 
 @end
 
-#define NHHUDMinSize CGSizeMake(150, 80)
+@implementation NHProgressHUD
 
-@implementation UIViewController (HUD)
++ (NHProgressHUD *)shareInstance {
+    static dispatch_once_t onceToken;
+    static NHProgressHUD *hud;
+    dispatch_once(&onceToken, ^{
+        hud = [[NHProgressHUD alloc] init];
+    });
+    return hud;
+}
 
-#pragma mark - show in self.view
+
 
 - (void)showHUD {
     [self showHUDWithText:nil];
@@ -82,7 +87,7 @@
 }
 
 - (void)showDeterminateHUDInView:(UIView *)view withText:(NSString *)text determinateMode:(NHHUDDeterminateMode)mode {
-
+    
     //Save the determinate mode
     self.determinateMode = mode;
     [self showDeterminateHUDInView:view withText:text detailText:nil customView:nil determinateMode:NHHUDViewModeDeterminate];
@@ -271,6 +276,5 @@
     objc_setAssociatedObject(self, @selector(hudViewMode), nil, OBJC_ASSOCIATION_ASSIGN);
     objc_setAssociatedObject(self, @selector(determinateMode), nil, OBJC_ASSOCIATION_ASSIGN);
 }
-
 
 @end

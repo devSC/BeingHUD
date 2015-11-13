@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C203B728A58E861FD9B77E89 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AB2583F884B0F02DE536A07 /* libPods.a */; };
+		C8235AF21BF5C07700DE60C9 /* NHProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C8235AF11BF5C07700DE60C9 /* NHProgressHUD.m */; };
 		C8E18C281BE0BB01009887F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E18C271BE0BB01009887F5 /* main.m */; };
 		C8E18C2B1BE0BB01009887F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E18C2A1BE0BB01009887F5 /* AppDelegate.m */; };
 		C8E18C2E1BE0BB01009887F5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E18C2D1BE0BB01009887F5 /* ViewController.m */; };
@@ -42,6 +43,9 @@
 		2AB2583F884B0F02DE536A07 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		639A577C92AE6259BDA18DD2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		959A3DB37D30C745CBD06578 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C8235AF01BF5C07700DE60C9 /* NHProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NHProgressHUD.h; sourceTree = "<group>"; };
+		C8235AF11BF5C07700DE60C9 /* NHProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NHProgressHUD.m; sourceTree = "<group>"; };
+		C8235AF31BF5CC5000DE60C9 /* NHProgressHUD-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NHProgressHUD-Header.h"; sourceTree = "<group>"; };
 		C8E18C231BE0BB01009887F5 /* BeingHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeingHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8E18C271BE0BB01009887F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C8E18C291BE0BB01009887F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -173,6 +177,9 @@
 			children = (
 				C8E18C5A1BE0BC30009887F5 /* UIViewController+HUD.h */,
 				C8E18C5B1BE0BC30009887F5 /* UIViewController+HUD.m */,
+				C8235AF01BF5C07700DE60C9 /* NHProgressHUD.h */,
+				C8235AF11BF5C07700DE60C9 /* NHProgressHUD.m */,
+				C8235AF31BF5CC5000DE60C9 /* NHProgressHUD-Header.h */,
 			);
 			path = UIViewController;
 			sourceTree = "<group>";
@@ -374,6 +381,7 @@
 				C8E18C2E1BE0BB01009887F5 /* ViewController.m in Sources */,
 				C8E18C2B1BE0BB01009887F5 /* AppDelegate.m in Sources */,
 				C8E18C5C1BE0BC30009887F5 /* UIViewController+HUD.m in Sources */,
+				C8235AF21BF5C07700DE60C9 /* NHProgressHUD.m in Sources */,
 				C8E18C281BE0BB01009887F5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
